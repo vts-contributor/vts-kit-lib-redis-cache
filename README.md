@@ -20,14 +20,12 @@ Quick start
 * Then, add the following properties to your `application-*.yml` file, we have 2 option
   * Single Node
       ```yaml
-      vtskit:
         redis:
           host: localhost #host name
           port: 6379 #port number
       ```
   * Cluster Node:
     ```yaml
-      vtskit:
         redis:
           cluster:
             nodes: #list cluster node
@@ -60,7 +58,11 @@ public class RedisApplication {
     cacheService.createCache("books", jcacheConfiguration)
 ```
   
-* Step 3: To caching data you should add @Cacheable
+* Step 3: To caching data you should add annotation 
+
+
+@Cacheable:
+Annotation indicating that the result of invoking a method (or all methods in a class) can be cached.
 ```java
 @Component
 public class SimpleBookRepository implements BookRepository {
@@ -70,6 +72,49 @@ public class SimpleBookRepository implements BookRepository {
         return new Book(isbn, "Some book");
     }
 }
+```
+
+@CacheEvict:
+Annotation indicating that a method (or all methods on a class) triggers a cache evict operation.
+Evict the mapping for this key from this cache if it is present.
+
+```java
+@Component
+public class SimpleBookRepository implements BookRepository {
+    @Override
+    @CacheEvict("books")
+    public Book getByIsbn(String isbn) {
+        return new Book(isbn, "Some book");
+    }
+}
+```
+@CachePut:
+Annotation indicating that a method (or all methods on a class) triggers a cache put operation.
+If the cache previously contained a mapping for this key, the old value is replaced by the specified value.
+```java
+@Component
+public class SimpleBookRepository implements BookRepository {
+    @Override
+    @CachePut(value = "books")
+    public Book getByIsbn(String isbn) {
+        return new Book(isbn, "Some book");
+    }
+}
+```
+Additionally, you can set expiration duration for cache:
+```java
+@Configuration
+@EnableCaching
+@EnableScheduling
+public class Config  {
+    public static final String CacheName = "books";
+    @CacheEvict(allEntries = true, value = {CacheName})
+    @Scheduled(fixedDelay = 1 * 60 * 1000 ,  initialDelay = 500)
+    public void reportCacheEvict() {
+        System.out.println("Flush Cache " + new Date());
+    }
+}
+
 ```
 ##### Built-in function
 We are wrapped some feature:
@@ -83,31 +128,43 @@ We are wrapped some feature:
 * Step 2: Use CacheService
   ###### Save
   ```java
-      boolean test= cacheService.save(String key, Object value)
+      boolean test = cacheService.save(String key, Object value)
   ```
+  ###### Save with expire time
+    ```java
+        boolean test = cacheService.saveWithExpire(String key, Object value)
+    ```
   ###### Update
   ```java
-      boolean test= cacheService.update(String key, Object value)
+      boolean test = cacheService.update(String key, Object value)
   ```
+  ###### Set expire time
+    ```java
+        boolean test = cacheService.setExpire(String key, Long timeSecond)
+    ```
+  ###### Get cache
+    ```java
+        Object test = cacheService.get(String key)
+    ```
   ###### Delete
   ```java
-      boolean test= cacheService.delete(String key)
+      boolean test = cacheService.delete(String key)
   ```
   ###### Create cache
   ```java
-      boolean test= cacheService.createCache("books", jcacheConfiguration)
+      boolean test = cacheService.createCache("books", jcacheConfiguration)
   ```
   ###### Clear cache
   ```java
-      boolean test= cacheService.clearCache(String cacheName)
+      boolean test = cacheService.clearCache(String cacheName)
   ```
   ###### Delete
   ```java
-      boolean test= cacheService.delete(String key)
+      boolean test = cacheService.delete(String key)
   ```
   ###### Delete All Cache
   ```java
-      boolean test= cacheService.clearAllCache()
+      boolean test = cacheService.clearAllCache()
   ```
 
 ##### Use direct RedisTemplate

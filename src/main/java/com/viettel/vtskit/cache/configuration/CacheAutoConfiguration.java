@@ -21,7 +21,7 @@ public class CacheAutoConfiguration {
 
     @Bean
     @Primary
-    @ConfigurationProperties(prefix = "vtskit.redis")
+    @ConfigurationProperties(prefix = "redis")
     public RedisProperties redisConfigurationProperties(){
         return new CacheProperties();
     }
@@ -30,6 +30,7 @@ public class CacheAutoConfiguration {
     public javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration(RedissonClient redissonClient){
         MutableConfiguration<Object, Object> jcacheConfig = new MutableConfiguration<>();
         Config config = redissonClient.getConfig();
+
         return RedissonConfiguration.fromInstance(Redisson.create(config),jcacheConfig);
     }
 

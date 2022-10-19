@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CacheAutoConfiguration.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">vts-kit-ms-redis-cache</a> &gt; <a href="index.source.html" class="el_package">com.viettel.vtskit.cache.configuration</a> &gt; <span class="el_source">CacheAutoConfiguration.java</span></div><h1>CacheAutoConfiguration.java</h1><pre class="source lang-java linenums">package com.viettel.vtskit.cache.configuration;
+
+import com.viettel.vtskit.cache.CacheService;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
+import org.redisson.jcache.configuration.RedissonConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+
+import javax.cache.configuration.MutableConfiguration;
+
+@Configuration
+@EnableConfigurationProperties(CacheProperties.class)
+<span class="nc" id="L20">public class CacheAutoConfiguration {</span>
+
+    @Bean
+    @Primary
+    @ConfigurationProperties(prefix = &quot;redis&quot;)
+    public RedisProperties redisConfigurationProperties(){
+<span class="nc" id="L26">        return new CacheProperties();</span>
+    }
+
+    @Bean
+    public javax.cache.configuration.Configuration&lt;Object, Object&gt; jcacheConfiguration(RedissonClient redissonClient){
+<span class="nc" id="L31">        MutableConfiguration&lt;Object, Object&gt; jcacheConfig = new MutableConfiguration&lt;&gt;();</span>
+<span class="nc" id="L32">        Config config = redissonClient.getConfig();</span>
+
+<span class="nc" id="L34">        return RedissonConfiguration.fromInstance(Redisson.create(config),jcacheConfig);</span>
+    }
+
+    @Bean
+    public CacheService cacheService(){
+<span class="nc" id="L39">        return new CacheService();</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

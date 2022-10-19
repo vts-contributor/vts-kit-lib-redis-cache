@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.viettel.vtskit.cache.configuration.CacheAutoConfiguration,\
+  com.viettel.vtskit.cache.configuration.RedisConfiguration
