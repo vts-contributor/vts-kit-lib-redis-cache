@@ -19,20 +19,21 @@ Quick start
 
 * Then, add the following properties to your `application-*.yml` file, we have 2 option
   * Single Node
-      ```yaml
-        redis:
-          host: localhost #host name
-          port: 6379 #port number
-      ```
+    ```yaml
+    redis:
+      host: localhost #host name
+      port: 6379 #port number
+    ```
   * Cluster Node:
     ```yaml
-        redis:
-          cluster:
-            nodes: #list cluster node
-              - 172.18.0.1:7000
-              - 172.18.0.1:7001
-              - 172.18.0.1:7002
-            maxRedirects: 1 
+    redis:
+      cluster:
+        nodes: #list cluster node
+    
+          - 172.18.0.1:7000
+          - 172.18.0.1:7001
+          - 172.18.0.1:7002
+        maxRedirects: 1 
     ```
 
 Usage
