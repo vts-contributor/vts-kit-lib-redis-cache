@@ -1,6 +1,0 @@
-com\viettel\vtskit\cache\utils\StringUtils.class
-com\viettel\vtskit\cache\configuration\CacheAutoConfiguration.class
-com\viettel\vtskit\cache\configuration\CacheProperties.class
-com\viettel\vtskit\cache\CacheService.class
-com\viettel\vtskit\cache\configuration\RedisConfiguration.class
-META-INF\spring-configuration-metadata.json

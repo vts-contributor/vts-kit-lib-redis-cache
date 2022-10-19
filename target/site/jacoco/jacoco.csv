@@ -1,6 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-vts-kit-ms-redis-cache,com.viettel.vtskit.cache,CacheService,156,0,4,0,45,0,13,0,11,0
-vts-kit-ms-redis-cache,com.viettel.vtskit.cache.configuration,CacheProperties,7,0,0,0,4,0,3,0,3,0
-vts-kit-ms-redis-cache,com.viettel.vtskit.cache.configuration,RedisConfiguration,29,0,0,0,10,0,4,0,4,0
-vts-kit-ms-redis-cache,com.viettel.vtskit.cache.configuration,CacheAutoConfiguration,23,0,0,0,6,0,4,0,4,0
-vts-kit-ms-redis-cache,com.viettel.vtskit.cache.utils,StringUtils,12,0,4,0,2,0,4,0,2,0
