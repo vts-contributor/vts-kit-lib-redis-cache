@@ -2,12 +2,17 @@ package com.viettel.vtskit.cache;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.redisson.api.RedissonClient;
 import org.redisson.spring.cache.RedissonSpringCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class CacheService {
+
+
 
     @Autowired
     RedisTemplate redisTemplate;
@@ -18,14 +23,37 @@ public class CacheService {
 
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+
     public boolean save(String key, Object value){
         try{
             redisTemplate.opsForValue().set(key,gson.toJson(value));
+
             return true;
         }catch (Exception e){
             throw e;
         }
     }
+
+    public boolean saveWithExpire(String key, Object value, Long timeSecond){
+        try{
+            redisTemplate.opsForValue().set(key,gson.toJson(value));
+            redisTemplate.expire(key,timeSecond,TimeUnit.SECONDS);
+            return true;
+        }catch (Exception e){
+            throw e;
+        }
+    }
+
+
+    public Object get(String key){
+        try{
+            Object object =  redisTemplate.opsForValue().get(key);
+            return object;
+        }catch (Exception e){
+            throw e;
+        }
+    }
+
     public boolean update(String key, Object value){
         try{
             redisTemplate.opsForValue().getAndSet(key,gson.toJson(value));
@@ -34,16 +62,27 @@ public class CacheService {
             throw e;
         }
     }
-    public boolean delete(String key){
+
+    public boolean setExpire(String key,Long timeSecond){
         try{
-            redisTemplate.opsForValue().getAndDelete(key);
+            redisTemplate.expire(key,timeSecond,TimeUnit.SECONDS);
             return true;
         }catch (Exception e){
             throw e;
         }
     }
 
-    private Boolean createCache( String cacheName,
+    public boolean delete(String key){
+        try{
+            redisTemplate.opsForValue().getAndDelete(key);
+            //redisTemplate.expire("new",2000, TimeUnit.DAYS);
+            return true;
+        }catch (Exception e){
+            throw e;
+        }
+    }
+
+    public Boolean createCache( String cacheName,
                               javax.cache.configuration.Configuration<Object, Object> jcacheConfiguration) {
         try{
             javax.cache.Cache<Object, Object> cache = cacheManager.getCache(cacheName);
@@ -57,6 +96,11 @@ public class CacheService {
             throw e;
         }
     }
+
+    public javax.cache.Cache<Object, Object> getCache( String cacheName){
+        return cacheManager.getCache(cacheName);
+    }
+
 
     public boolean clearAllCache(){
         try{
@@ -76,4 +120,5 @@ public class CacheService {
             throw e;
         }
     }
+
 }
