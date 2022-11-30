@@ -84,8 +84,8 @@ Evict the mapping for this key from this cache if it is present.
 public class SimpleBookRepository implements BookRepository {
     @Override
     @CacheEvict("books")
-    public Book getByIsbn(String isbn) {
-        return new Book(isbn, "Some book");
+    public void deleteBookById(String isbn) {
+        return deleteBookById(isbn);
     }
 }
 ```
@@ -97,8 +97,8 @@ If the cache previously contained a mapping for this key, the old value is repla
 public class SimpleBookRepository implements BookRepository {
     @Override
     @CachePut(value = "books")
-    public Book getByIsbn(String isbn) {
-        return new Book(isbn, "Some book");
+    public Book updateBookById(String isbn) {
+        return updateBookById(isbn);
     }
 }
 ```
