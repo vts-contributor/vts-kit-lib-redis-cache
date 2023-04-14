@@ -12,7 +12,7 @@ Quick start
 ```xml
 <dependency>
     <groupId>com.atviettelsolutions</groupId>
-    <artifactId>vts-kit-ms-redis-cache</artifactId>
+    <artifactId>vts-kit-lib-redis-cache</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
@@ -84,8 +84,8 @@ Evict the mapping for this key from this cache if it is present.
 public class SimpleBookRepository implements BookRepository {
     @Override
     @CacheEvict("books")
-    public Book getByIsbn(String isbn) {
-        return new Book(isbn, "Some book");
+    public void deleteBookById(String isbn) {
+        return deleteBookById(isbn);
     }
 }
 ```
@@ -97,8 +97,8 @@ If the cache previously contained a mapping for this key, the old value is repla
 public class SimpleBookRepository implements BookRepository {
     @Override
     @CachePut(value = "books")
-    public Book getByIsbn(String isbn) {
-        return new Book(isbn, "Some book");
+    public Book updateBookById(String isbn) {
+        return updateBookById(isbn);
     }
 }
 ```
@@ -133,12 +133,13 @@ We are wrapped some feature:
   ```
   ###### Save with expire time
     ```java
-        boolean test = cacheService.saveWithExpire(String key, Object value)
+        boolean test = cacheService.saveWithExpire(String key, Object value, Long timeSecond)
     ```
   ###### Update
   ```java
       boolean test = cacheService.update(String key, Object value)
   ```
+  
   ###### Set expire time
     ```java
         boolean test = cacheService.setExpire(String key, Long timeSecond)
