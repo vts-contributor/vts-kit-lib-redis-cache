@@ -12,7 +12,7 @@ Quick start
 ```xml
 <dependency>
     <groupId>com.atviettelsolutions</groupId>
-    <artifactId>vts-kit-ms-redis-cache</artifactId>
+    <artifactId>vts-kit-lib-redis-cache</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```

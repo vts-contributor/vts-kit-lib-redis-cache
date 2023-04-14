@@ -6,10 +6,12 @@ import org.redisson.api.RedissonClient;
 import org.redisson.spring.cache.RedissonSpringCacheManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
 
+@Component
 public class CacheService {
 
 
